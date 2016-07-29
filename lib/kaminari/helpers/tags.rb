@@ -50,7 +50,7 @@ module Kaminari
           #     to: {other: "params", user: {name: "yuki", page: nil}}
           #   (when @param_name == "user[page]")
           #@param_name.to_s.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h[k] }[$&] = nil
-          @param_name.to_s.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h.merge!({"[#{k}]" => k}) }[$&] = nil
+          #@param_name.to_s.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h.merge!({"[#{k}]" => k}) }[$&] = nil
         end
 
         page_params
