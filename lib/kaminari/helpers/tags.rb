@@ -40,18 +40,18 @@ module Kaminari
         page_params = Rack::Utils.parse_nested_query("#{@param_name}=#{page}")
         page_params = @params.deep_merge(page_params)
 
-        # if !Kaminari.config.params_on_first_page && (page <= 1)
-        #   # This converts a hash:
-        #   #   from: {other: "params", page: 1}
-        #   #     to: {other: "params", page: nil}
-        #   #   (when @param_name == "page")
-        #   #
-        #   #   from: {other: "params", user: {name: "yuki", page: 1}}
-        #   #     to: {other: "params", user: {name: "yuki", page: nil}}
-        #   #   (when @param_name == "user[page]")
-          @param_name.to_param.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h[k] }[$&] = nil
-        #   @param_name.to_param.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h.merge![k] }[$&] = nil
-        # end
+        if !Kaminari.config.params_on_first_page && (page <= 1)
+          # This converts a hash:
+          #   from: {other: "params", page: 1}
+          #     to: {other: "params", page: nil}
+          #   (when @param_name == "page")
+          #
+          #   from: {other: "params", user: {name: "yuki", page: 1}}
+          #     to: {other: "params", user: {name: "yuki", page: nil}}
+          #   (when @param_name == "user[page]")
+          #@param_name.to_s.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h[k] }[$&] = nil
+          @param_name.to_param.scan(/[\w\.]+/)[0..-2].inject(page_params){|h, k| h.merge![k] }[$&] = nil
+        end
 
         page_params
       end
